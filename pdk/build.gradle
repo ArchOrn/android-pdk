@@ -41,7 +41,7 @@ uploadArchives
       }
       pom.project
       {
-        groupId "com.pinterest.android.pinsdk"
+        groupId "com.pinterest"
         artifactId "android-sdk-custom"
         version "1.0"
         name "Custom Android Pinterest SDK"
