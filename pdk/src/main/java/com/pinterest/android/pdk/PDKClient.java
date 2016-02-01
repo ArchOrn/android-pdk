@@ -29,6 +29,9 @@ import java.util.Map;
 import java.util.Set;
 
 public class PDKClient {
+    public enum ImageType {
+      URL, BASE64
+    }
 
     public static final String PDKCLIENT_VERSION_CODE = "1.0";
 
@@ -378,6 +381,26 @@ public class PDKClient {
         params.put("note", note);
         if (!Utils.isEmpty(link)) params.put("link", link);
         if (!Utils.isEmpty(imageUrl)) params.put("image_url", imageUrl);
+        postPath(PINS, params, callback);
+    }
+
+    public void createPin(String note, String boardId, String image, String link, PDKCallback callback, ImageType imageType) {
+        if (Utils.isEmpty(note) || Utils.isEmpty(boardId) || Utils.isEmpty(image)) {
+            if (callback != null) callback.onFailure(new PDKException("Board Id, note, Image cannot be empty"));
+            return;
+        }
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("board", boardId);
+        params.put("note", note);
+        if (!Utils.isEmpty(link)) params.put("link", link);
+        switch (imageType) {
+        case BASE64:
+            if (!Utils.isEmpty(image)) params.put("image_base64", image);
+            break;
+        case URL:
+            if (!Utils.isEmpty(image)) params.put("image_url", image);
+            break;
+        }
         postPath(PINS, params, callback);
     }
 
