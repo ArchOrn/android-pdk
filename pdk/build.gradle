@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven'
 
 android {
     compileSdkVersion 21
@@ -22,4 +23,30 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.mcxiaoke.volley:library:1.0.+'
+}
+
+uploadArchives
+{
+  repositories
+  {
+    mavenDeployer
+    {
+      repository(url: nexusReleaseUrl)
+      {
+        authentication(userName: nexusUsername, password: nexusPassword)
+      }
+      snapshotRepository(url: nexusSnapshotUrl)
+      {
+        authentication(userName: nexusUsername, password: nexusPassword)
+      }
+      pom.project
+      {
+        groupId "com.pinterest.android.pinsdk"
+        artifactId "android-sdk-custom"
+        version "1.0"
+        name "Custom Android Pinterest SDK"
+        packaging "aar"
+      }
+    }
+  }
 }
